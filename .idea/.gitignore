@@ -1,0 +1,11 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Zeppelin ignored files
+/ZeppelinRemoteNotebooks/
+/misc.xml
+/inspectionProfiles/profiles_settings.xml
+/weather_assistant.iml
+/modules.xml
+/inspectionProfiles/Project_Default.xml
+/vcs.xml
