@@ -70,6 +70,7 @@ def call_ollama(messages, tools=None):
 
     try:
         response = requests.post(f"{OLLAMA_API_BASE}/api/chat", json=payload)
+        st.error(response.text)
         response.raise_for_status()
         result = response.json()
         return result["message"]
