@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import json
+from config import OPENWEATHER_API_KEY
 
 # --- Настройки ---
 OLLAMA_API_BASE = "http://localhost:11434"  # Локальный Ollama сервер
@@ -89,7 +90,7 @@ except:
     st.stop()
 
 # --- Ключ от OpenWeather ---
-OPENWEATHER_API_KEY = st.secrets["OPENWEATHER_API_KEY"]  # Или вставьте напрямую (не рекомендуется)
+# Ранее: OPENWEATHER_API_KEY = st.secrets["OPENWEATHER_API_KEY"]
 
 # --- История сообщений ---
 if "messages" not in st.session_state:
