@@ -1,0 +1,16 @@
+# Core web UI
+streamlit>=1.35.0
+
+# HTTP requests for OpenWeather
+requests>=2.31.0
+
+# Hugging Face ecosystem
+transformers>=4.42.0
+accelerate>=0.30.0
+safetensors>=0.4.2
+
+# Many HF chat/instruct models require this for tokenization
+sentencepiece>=0.1.99
+
+# PyTorch (CPU build by default). If you have CUDA, consider installing a GPU-specific wheel from pytorch.org
+torch>=2.2.0
