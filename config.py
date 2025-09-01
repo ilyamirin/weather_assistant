@@ -1,6 +1,6 @@
 # config.py
 # API key for weather service
-OPENWEATHER_API_KEY = "67efc842d95cf8267a2763bb213308ef"
+OPENWEATHER_API_KEY = "put_your_api_key_here"
 
 # Hugging Face Transformers model to use for the assistant
 # You can change this to any local or cached chat/instruct model.

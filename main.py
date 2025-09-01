@@ -57,7 +57,7 @@ def _load_model_and_tokenizer(model_name: str):
     tok = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        torch_dtype=DTYPE,
+        dtype=DTYPE,
         device_map="auto" if DEVICE == "cuda" else None,
     )
     if DEVICE != "cuda":
@@ -78,8 +78,9 @@ def _build_system_prompt(tools_spec, supports_tools: bool) -> str:
             "Без каких-либо пояснений вокруг. Если инструмент не нужен, ответь обычным текстом."
         )
         return base + "\n\n" + tool_desc
-    return base
-
+    # Если инструменты не используются, не возвращаем базовый system prompt —
+    # он уже есть в истории сообщений, и дублировать его не нужно.
+    return ""
 
 def _apply_chat_template_or_concat(tok: AutoTokenizer, messages: list, system_prompt: str) -> str:
     # Try to use chat template if available
@@ -97,13 +98,17 @@ def _apply_chat_template_or_concat(tok: AutoTokenizer, messages: list, system_pr
     except Exception:
         # Fallback: simple concatenation
         parts = []
-        if system_prompt:
+        # Добавляем system_prompt только если его нет в истории
+        if system_prompt and not inserted_system:
             parts.append(f"[СИСТЕМА]\n{system_prompt}\n")
         for m in messages:
             role = m.get("role", "user")
             content = m.get("content", "")
             if role in ("user", "assistant"):
                 parts.append(f"[{role.upper()}]\n{content}\n")
+            elif role == "tool":
+                # Включаем результат инструмента, чтобы модель могла им воспользоваться
+                parts.append(f"[TOOL]\n{content}\n")
         parts.append("[ASSISTANT]\n")
         return "\n".join(parts)
 
